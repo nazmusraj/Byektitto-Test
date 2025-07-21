@@ -28,6 +28,9 @@ const questions = [
 // Detailed descriptions for each personality profile based on the final score.
 const profileDescriptions = {
     "Strong Extrovert": `
+        <div class="flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1zm6.293 4.707a1 1 0 01-1.414-1.414L12.586 10l-.707-.707a1 1 0 011.414-1.414l1.414 1.414a1 1 0 010 1.414l-1.414 1.414z" clip-rule="evenodd" /></svg>
+        </div>
         <h4 class="text-xl font-bold text-gray-800 mb-2">The Extrovert Profile (Scores 85-100)</h4>
         <p>Individuals scoring in the upper range of the spectrum direct their energy outward, seeking stimulation, engagement, and gratification from the external world. They are fueled by interaction and activity, thriving in environments that are rich with social and sensory input.</p>
         <ul class="list-disc pl-5 mt-4 space-y-2">
@@ -37,6 +40,9 @@ const profileDescriptions = {
             <li><strong>Behavioral Traits:</strong> You are often assertive, energetic, and more inclined to take risks. Your strengths lie in your ability to network, motivate others, and take initiative.</li>
         </ul>`,
     "Moderate Extrovert": `
+        <div class="flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6c0 1.888.864 3.58 2.23 4.654.4.329.805.52 1.27.52.828 0 1.5-1.119 1.5-2.5s-.672-2.5-1.5-2.5S5.5 9.119 5.5 10.5h-1c0-2.206 1.343-4 3-4s3 1.794 3 4c0 1.488-.702 2.722-1.768 3.522A5.988 5.988 0 0110 18a6 6 0 006-6c0-1.888-.864-3.58-2.23-4.654A3.987 3.987 0 0010 6a3.987 3.987 0 00-3.77 2.654A4.013 4.013 0 0010 10c.828 0 1.5-1.119 1.5-2.5s-.672-2.5-1.5-2.5S8.5 9.119 8.5 10.5h1c0-2.206-1.343-4-3-4s-3 1.794-3 4c0 1.488.702 2.722 1.768 3.522A5.988 5.988 0 014 12a6 6 0 016-6z" /></svg>
+        </div>
         <h4 class="text-xl font-bold text-gray-800 mb-2">The Extrovert Profile (Scores 70-84)</h4>
         <p>You direct your energy outward, seeking stimulation and engagement from the external world. You are fueled by interaction and activity, thriving in environments that are rich with social and sensory input.</p>
         <ul class="list-disc pl-5 mt-4 space-y-2">
@@ -46,6 +52,9 @@ const profileDescriptions = {
             <li><strong>Behavioral Traits:</strong> You are often assertive, energetic, and enjoy novelty. Your strengths lie in your ability to network, motivate others, and take initiative.</li>
         </ul>`,
     "Ambivert with Extroverted Leanings": `
+        <div class="flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zM2 10a8 8 0 1116 0 8 8 0 01-16 0zm9-3a1 1 0 00-2 0v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 9.586V7z" clip-rule="evenodd" /></svg>
+        </div>
         <h4 class="text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 56-69)</h4>
         <p>Scoring in the middle range of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You lean towards extroversion but are highly adaptable.</p>
         <ul class="list-disc pl-5 mt-4 space-y-2">
@@ -55,6 +64,9 @@ const profileDescriptions = {
             <li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. In a group, you can bridge the gap between introverts and extroverts. Your adaptability is your defining advantage.</li>
         </ul>`,
     "True Ambivert": `
+        <div class="flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 6.332a5.5 5.5 0 017.336 0 1 1 0 01-1.336 1.494A3.5 3.5 0 006.83 9.17a1 1 0 11-1.336-1.494 5.5 5.5 0 01-1.162-1.344zM10 12a1 1 0 100 2h.01a1 1 0 100-2H10z" clip-rule="evenodd" /></svg>
+        </div>
         <h4 class="text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 45-55)</h4>
         <p>Scoring in the middle of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You are situationally adaptable, able to draw upon both introverted and extroverted tendencies as needed.</p>
         <ul class="list-disc pl-5 mt-4 space-y-2">
@@ -64,6 +76,9 @@ const profileDescriptions = {
             <li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. You can bridge the gap between introverts and extroverts. Your adaptability is your defining advantage.</li>
         </ul>`,
     "Ambivert with Introverted Leanings": `
+        <div class="flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zM2 10a8 8 0 1116 0 8 8 0 01-16 0zm9 3a1 1 0 00-2 0v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 9.586V7z" clip-rule="evenodd" /></svg>
+        </div>
         <h4 class="text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 31-44)</h4>
         <p>Scoring in the middle range of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You lean towards introversion but are highly adaptable.</p>
         <ul class="list-disc pl-5 mt-4 space-y-2">
@@ -73,6 +88,9 @@ const profileDescriptions = {
             <li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. In a group, you can connect with both introverts and extroverts. Your adaptability is your defining advantage.</li>
         </ul>`,
     "Strong or Moderate Introvert": `
+        <div class="flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zm-1.513 8.35A4.012 4.012 0 013 18v-1.5a2.5 2.5 0 012.5-2.5h1.013A4.012 4.012 0 017.487 14.35zm5.586-4.242a1 1 0 01-1.414-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707zM16 10a1 1 0 00-1-1h-4a1 1 0 100 2h4a1 1 0 001-1z" /></svg>
+        </div>
         <h4 class="text-xl font-bold text-gray-800 mb-2">The Introvert Profile (Scores 20-30)</h4>
         <p>Individuals scoring in this range orient their energy primarily inward, finding gratification and renewal in their own mental landscape. This is not shyness, but a preference for lower-stimulus environments.</p>
         <ul class="list-disc pl-5 mt-4 space-y-2">
@@ -106,15 +124,15 @@ function renderQuestions() {
 
     questions.forEach((q, index) => {
         quizHTML += `
-            <div class="question-block bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
-                <p class="question-text font-semibold text-gray-800 mb-4 text-lg">${q.text}</p>
-                <div class="options-container flex flex-col sm:flex-row flex-wrap justify-between sm:space-x-4 space-y-3 sm:space-y-0">
+            <div class="question-block bg-white/80 p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                <p class="question-text font-semibold text-gray-800 mb-5 text-lg">${q.text}</p>
+                <div class="options-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-3">
         `;
         options.forEach(opt => {
             quizHTML += `
-                <label class="option-label inline-flex items-center cursor-pointer text-gray-700 hover:text-emerald-600 transition-colors duration-200 whitespace-nowrap">
-                    <input type="radio" name="q${index}" value="${opt.value}" class="form-radio h-5 w-5 text-emerald-600 border-gray-300 focus:ring-emerald-500">
-                    <span class="ml-3">${opt.label}</span>
+                <label class="option-label inline-flex items-center justify-center cursor-pointer text-gray-700 hover:text-emerald-600 transition-colors duration-200 whitespace-nowrap px-3 py-2 rounded-md border border-gray-300 hover:border-emerald-500 bg-white/80">
+                    <input type="radio" name="q${index}" value="${opt.value}" class="form-radio h-5 w-5 text-emerald-600 border-gray-300 focus:ring-emerald-500 hidden">
+                    <span class="ml-2">${opt.label}</span>
                 </label>
             `;
         });
