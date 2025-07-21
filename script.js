@@ -126,13 +126,13 @@ function renderQuestions() {
         quizHTML += `
             <div class="question-block bg-white/80 p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
                 <p class="question-text font-semibold text-gray-800 mb-5 text-lg">${q.text}</p>
-                <div class="options-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-3">
+                <div class="options-container flex flex-wrap justify-center gap-3">
         `;
         options.forEach(opt => {
             quizHTML += `
-                <label class="option-label inline-flex items-center justify-center cursor-pointer text-gray-700 hover:text-emerald-600 transition-colors duration-200 whitespace-nowrap px-3 py-2 rounded-md border border-gray-300 hover:border-emerald-500 bg-white/80">
+                <label class="option-label flex-grow basis-1/3 md:basis-auto cursor-pointer text-gray-700 hover:text-emerald-600 transition-colors duration-200 whitespace-nowrap px-4 py-3 rounded-md border border-gray-300 hover:border-emerald-500 bg-white/80 text-center">
                     <input type="radio" name="q${index}" value="${opt.value}" class="form-radio h-5 w-5 text-emerald-600 border-gray-300 focus:ring-emerald-500 hidden">
-                    <span class="ml-2">${opt.label}</span>
+                    <span>${opt.label}</span>
                 </label>
             `;
         });
