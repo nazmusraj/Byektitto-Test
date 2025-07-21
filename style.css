@@ -1,0 +1,17 @@
+body {
+    font-family: 'Inter', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+h1, h2, h4 {
+    font-family: 'Lora', 'Noto Sans Bengali', serif;
+}
+.option-label input:checked + span {
+    font-weight: 600; /* font-semibold */
+    color: #047857; /* text-emerald-700 */
+}
+#result-container {
+    animation: fadeIn 0.7s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+} 
