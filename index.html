@@ -14,9 +14,16 @@
             background: #c9d6ff;
             background: -webkit-linear-gradient(to right, #e2e2e2, #c9d6ff);
             background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            min-height: 100vh;
         }
-        h1, h2, h4, h3 {
+        h1, h2, h4 {
             font-family: 'Lora', 'Noto Sans Bengali', serif;
+        }
+        .option-label input:checked + span {
+            font-weight: 600;
+            color: #047857;
+            background-color: #ecfdf5;
+            border-color: #059669;
         }
         #result-container {
             animation: fadeIn 0.7s ease-in-out;
@@ -25,43 +32,65 @@
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Better mobile tap targets */
         .option-label {
-            transition: all 0.2s ease-in-out;
+            min-height: 44px; /* Minimum recommended touch target size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .option-label.selected {
-            @apply bg-emerald-600 text-white border-emerald-700 shadow-md transform -translate-y-1;
+        /* Progress indicator */
+        .progress-container {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gray-50 text-gray-800 flex items-center justify-center p-4">
 
-<div id="app-container" class="max-w-3xl w-full bg-white/50 backdrop-blur-xl rounded-2xl shadow-xl p-8 md:p-12 border border-gray-200/80">
-    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 text-center mb-3 tracking-tight">Personality Test</h1>
-    <p class="text-center text-gray-700 mb-8 text-lg">Know who you are!</p>
+<div id="app-container" class="max-w-5xl w-full bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8 lg:p-12 border border-gray-200/80">
+    <!-- Progress indicator -->
+    <div class="progress-container py-3 mb-4 -mx-6 md:-mx-8 lg:-mx-12 px-6 md:px-8 lg:px-12">
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div id="progress-bar" class="bg-emerald-600 h-2.5 rounded-full" style="width: 0%"></div>
+        </div>
+        <p id="progress-text" class="text-xs text-gray-600 mt-1 text-right">0/20 answered</p>
+    </div>
+
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 text-center mb-3 tracking-tight">Personality Test</h1>
+    <p class="text-center text-gray-700 mb-6 md:mb-8 text-base md:text-lg">Discover your personality type</p>
 
     <div id="quiz-section">
-        <div id="instructions" class="bg-emerald-50 border-l-4 border-emerald-600 text-emerald-900 p-5 mb-8 rounded-r-lg shadow-sm">
-            <p class="font-semibold text-lg mb-1">Instructions</p>
-            <p class="text-base">Please read each statement carefully and rate how much you agree or disagree with it as it applies to you generally. There are no right or wrong answers. Answer as honestly as possible.</p>
+        <div id="instructions" class="bg-emerald-50 border-l-4 border-emerald-600 text-emerald-900 p-4 md:p-5 mb-6 md:mb-8 rounded-r-lg shadow-sm">
+            <p class="font-semibold text-base md:text-lg mb-1">Instructions</p>
+            <p class="text-sm md:text-base">Read each statement and select how much you agree or disagree. Answer honestly - there are no right or wrong answers.</p>
         </div>
         <form id="quiz-form">
-            <div id="quiz-container" class="space-y-6"></div>
-            <button id="submit-btn" type="submit" class="mt-10 w-full py-4 px-6 text-lg font-semibold text-white bg-emerald-600 rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 ease-in-out transform hover:scale-105">Get My Result</button>
-            <p id="error-message" class="text-red-600 text-center font-semibold mt-4" style="display:none;">Please answer all questions before submitting.</p>
+            <div id="quiz-container" class="space-y-4 md:space-y-6"></div>
+            <button id="submit-btn" type="submit" class="mt-8 w-full py-3 px-6 text-base md:text-lg font-semibold text-white bg-emerald-600 rounded-lg shadow-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 ease-in-out">
+                Get My Results
+            </button>
+            <p id="error-message" class="text-red-600 text-center font-semibold mt-3 md:mt-4" style="display:none;">Please answer all questions before submitting.</p>
         </form>
     </div>
 
     <div id="result-container" style="display:none;">
-        <h2 id="result-profile" class="text-3xl font-bold text-center text-emerald-700 mb-2"></h2>
-        <p class="text-center text-xl mb-6"><strong>Your Final Score: <span id="result-score" class="text-emerald-700"></span></strong></p>
-        <div id="result-description" class="prose max-w-none text-justify bg-gray-50/80 p-6 rounded-lg border border-gray-200 shadow-sm"></div>
-        <button id="retake-btn" class="mt-8 w-full py-3 px-6 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">Take Test Again</button>
+        <div class="text-center mb-6 md:mb-8">
+            <h2 id="result-profile" class="text-2xl md:text-3xl font-bold text-emerald-700 mb-1"></h2>
+            <p class="text-lg md:text-xl"><strong>Your Score: <span id="result-score" class="text-emerald-700"></span>/100</strong></p>
+        </div>
+        <div id="result-description" class="prose max-w-none text-justify bg-gray-50 p-4 md:p-6 rounded-lg border border-gray-200 shadow-sm"></div>
+        <button id="retake-btn" class="mt-6 w-full py-3 px-6 text-base md:text-lg font-semibold text-emerald-700 bg-white rounded-lg shadow-md border border-emerald-600 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all duration-300 ease-in-out">
+            Retake Test
+        </button>
     </div>
 </div>
 
 <script>
     // --- Data and Configuration ---
-
     const questions = [
         { text: "1. I feel energized after spending time with a large group of people.", scoring: "forward" },
         { text: "2. I am often quiet and reserved in social settings.", scoring: "reverse" },
@@ -86,27 +115,90 @@
     ];
 
     const profileDescriptions = {
-        "Strong Extrovert": `<div class="flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1zm6.293 4.707a1 1 0 01-1.414-1.414L12.586 10l-.707-.707a1 1 0 011.414-1.414l1.414 1.414a1 1 0 010 1.414l-1.414 1.414z" clip-rule="evenodd" /></svg></div><h4 class="text-xl font-bold text-gray-800 mb-2">The Extrovert Profile (Scores 85-100)</h4><p>Individuals scoring in the upper range of the spectrum direct their energy outward, seeking stimulation, engagement, and gratification from the external world. They are fueled by interaction and activity, thriving in environments that are rich with social and sensory input.</p><ul class="list-disc pl-5 mt-4 space-y-2"><li><strong>Energy Source:</strong> Your batteries are charged by external stimulation, especially social interaction. Being around other people makes you feel energized, excited, and alive. You can feel bored or restless when you spend too much time alone.</li><li><strong>Social Style:</strong> You are likely sociable, outgoing, talkative, and gregarious. You enjoy being the center of attention, thrive in large gatherings, and often have a wide social circle.</li><li><strong>Cognitive Style:</strong> You tend to process information externally, often thinking by talking. This can make you appear quick-witted and decisive. You are generally action-oriented.</li><li><strong>Behavioral Traits:</strong> You are often assertive, energetic, and more inclined to take risks. Your strengths lie in your ability to network, motivate others, and take initiative.</li></ul>`,
-        "Moderate Extrovert": `<div class="flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6c0 1.888.864 3.58 2.23 4.654.4.329.805.52 1.27.52.828 0 1.5-1.119 1.5-2.5s-.672-2.5-1.5-2.5S5.5 9.119 5.5 10.5h-1c0-2.206 1.343-4 3-4s3 1.794 3 4c0 1.488-.702 2.722-1.768 3.522A5.988 5.988 0 0110 18a6 6 0 006-6c0-1.888-.864-3.58-2.23-4.654A3.987 3.987 0 0010 6a3.987 3.987 0 00-3.77 2.654A4.013 4.013 0 0010 10c.828 0 1.5-1.119 1.5-2.5s-.672-2.5-1.5-2.5S8.5 9.119 8.5 10.5h1c0-2.206-1.343-4-3-4s-3 1.794-3 4c0 1.488.702 2.722 1.768 3.522A5.988 5.988 0 014 12a6 6 0 016-6z" /></svg></div><h4 class="text-xl font-bold text-gray-800 mb-2">The Extrovert Profile (Scores 70-84)</h4><p>You direct your energy outward, seeking stimulation and engagement from the external world. You are fueled by interaction and activity, thriving in environments that are rich with social and sensory input.</p><ul class="list-disc pl-5 mt-4 space-y-2"><li><strong>Energy Source:</strong> Your batteries are charged by external stimulation, especially social interaction. Being around other people makes you feel energized and excited. You can feel bored when you spend too much time alone.</li><li><strong>Social Style:</strong> You are typically outgoing, talkative, and gregarious. You enjoy large gatherings and often have a wide social circle. You find it relatively easy to start conversations and make new friends.</li><li><strong>Cognitive Style:</strong> You tend to process information externally, often thinking by talking. You are generally action-oriented and may sometimes speak or act before thinking things through completely.</li><li><strong>Behavioral Traits:</strong> You are often assertive, energetic, and enjoy novelty. Your strengths lie in your ability to network, motivate others, and take initiative.</li></ul>`,
-        "Ambivert with Extroverted Leanings": `<div class="flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zM2 10a8 8 0 1116 0 8 8 0 01-16 0zm9-3a1 1 0 00-2 0v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 9.586V7z" clip-rule="evenodd" /></svg></div><h4 class="text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 56-69)</h4><p>Scoring in the middle range of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You lean towards extroversion but are highly adaptable.</p><ul class="list-disc pl-5 mt-4 space-y-2"><li><strong>Energy Source:</strong> Your energy management is fluid. You can be energized by social situations, but this energy has a limit. Unlike a strong extrovert, you will eventually feel the need to withdraw and recharge. You enjoy solitude but also seek social connection.</li><li><strong>Social Style:</strong> You are a social chameleon. You can be outgoing and talkative when the situation calls for it, but are equally comfortable taking on a quieter, more observant role.</li><li><strong>Cognitive Style:</strong> You possess a flexible cognitive style, capable of both deep internal reflection and processing thoughts externally through discussion.</li><li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. In a group, you can bridge the gap between introverts and extroverts. Your adaptability is your defining advantage.</li></ul>`,
-        "True Ambivert": `<div class="flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 6.332a5.5 5.5 0 017.336 0 1 1 0 01-1.336 1.494A3.5 3.5 0 006.83 9.17a1 1 0 11-1.336-1.494 5.5 5.5 0 01-1.162-1.344zM10 12a1 1 0 100 2h.01a1 1 0 100-2H10z" clip-rule="evenodd" /></svg></div><h4 class="text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 45-55)</h4><p>Scoring in the middle of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You are situationally adaptable, able to draw upon both introverted and extroverted tendencies as needed.</p><ul class="list-disc pl-5 mt-4 space-y-2"><li><strong>Energy Source:</strong> Your energy management is fluid. You can be energized by social situations, but this energy has a limit. You will eventually feel the need to withdraw and recharge. Similarly, you enjoy solitude but will eventually seek social connection.</li><li><strong>Social Style:</strong> You are a social chameleon. You can be outgoing and talkative when needed, but are equally comfortable being quiet and observant. This makes you a skilled conversationalist who knows when to speak and when to listen.</li><li><strong>Cognitive Style:</strong> You possess a flexible cognitive style, capable of both deep internal reflection and processing thoughts externally through discussion. This makes you effective in roles that require both independent work and teamwork.</li><li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. You can bridge the gap between introverts and extroverts. Your adaptability is your defining advantage.</li></ul>`,
-        "Ambivert with Introverted Leanings": `<div class="flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zM2 10a8 8 0 1116 0 8 8 0 01-16 0zm9 3a1 1 0 00-2 0v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 9.586V7z" clip-rule="evenodd" /></svg></div><h4 class="text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 31-44)</h4><p>Scoring in the middle range of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You lean towards introversion but are highly adaptable.</p><ul class="list-disc pl-5 mt-4 space-y-2"><li><strong>Energy Source:</strong> Your energy management is fluid, but you have a preference for calmer settings. You can be energized by social situations for a time, but you feel the need to withdraw and recharge more quickly than an extrovert. You value your alone time.</li><li><strong>Social Style:</strong> You are a social chameleon. While you can be outgoing when necessary, you are more naturally comfortable in a quieter, more observant role. You are a skilled and empathetic listener.</li><li><strong>Cognitive Style:</strong> You possess a flexible cognitive style but likely prefer to think things through internally before speaking.</li><li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. In a group, you can connect with both introverts and extroverts. Your adaptability is your defining advantage.</li></ul>`,
-        "Strong or Moderate Introvert": `<div class="flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zm-1.513 8.35A4.012 4.012 0 013 18v-1.5a2.5 2.5 0 012.5-2.5h1.013A4.012 4.012 0 017.487 14.35zm5.586-4.242a1 1 0 01-1.414-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707zM16 10a1 1 0 00-1-1h-4a1 1 0 100 2h4a1 1 0 001-1z" /></svg></div><h4 class="text-xl font-bold text-gray-800 mb-2">The Introvert Profile (Scores 20-30)</h4><p>Individuals scoring in this range orient their energy primarily inward, finding gratification and renewal in their own mental landscape. This is not shyness, but a preference for lower-stimulus environments.</p><ul class="list-disc pl-5 mt-4 space-y-2"><li><strong>Energy Source:</strong> The defining characteristic of the introvert is energy dynamics. You gain energy from solitude and find sustained social interaction to be draining. After social events, you require quiet time alone to "recharge your batteries."</li><li><strong>Social Style:</strong> You are not anti-social; you are selectively social. You typically prefer smaller, more intimate gatherings with close friends or meaningful one-on-one conversations over large parties.</li><li><strong>Cognitive Style:</strong> Your focus is internal. You process information deeply and reflectively, often thinking things through carefully before speaking. You likely enjoy solitary activities that engage your mind.</li><li><strong>Behavioral Traits:</strong> You tend to be more cautious and less inclined toward high-risk behaviors. Your strengths lie in your capacity for deep focus, careful planning, and thoughtful analysis.</li></ul>`
+        "Strong Extrovert": `
+            <div class="flex items-center justify-center mb-3 md:mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1zm6.293 4.707a1 1 0 01-1.414-1.414L12.586 10l-.707-.707a1 1 0 011.414-1.414l1.414 1.414a1 1 0 010 1.414l-1.414 1.414z" clip-rule="evenodd" /></svg>
+            </div>
+            <h4 class="text-lg md:text-xl font-bold text-gray-800 mb-2">The Extrovert Profile (Scores 85-100)</h4>
+            <p>Individuals scoring in the upper range of the spectrum direct their energy outward, seeking stimulation, engagement, and gratification from the external world. They are fueled by interaction and activity, thriving in environments that are rich with social and sensory input.</p>
+            <ul class="list-disc pl-5 mt-3 md:mt-4 space-y-1 md:space-y-2">
+                <li><strong>Energy Source:</strong> Your batteries are charged by external stimulation, especially social interaction. Being around other people makes you feel energized, excited, and alive. You can feel bored or restless when you spend too much time alone.</li>
+                <li><strong>Social Style:</strong> You are likely sociable, outgoing, talkative, and gregarious. You enjoy being the center of attention, thrive in large gatherings, and often have a wide social circle.</li>
+                <li><strong>Cognitive Style:</strong> You tend to process information externally, often thinking by talking. This can make you appear quick-witted and decisive. You are generally action-oriented.</li>
+                <li><strong>Behavioral Traits:</strong> You are often assertive, energetic, and more inclined to take risks. Your strengths lie in your ability to network, motivate others, and take initiative.</li>
+            </ul>`,
+        "Moderate Extrovert": `
+            <div class="flex items-center justify-center mb-3 md:mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 00-6 6c0 1.888.864 3.58 2.23 4.654.4.329.805.52 1.27.52.828 0 1.5-1.119 1.5-2.5s-.672-2.5-1.5-2.5S5.5 9.119 5.5 10.5h-1c0-2.206 1.343-4 3-4s3 1.794 3 4c0 1.488-.702 2.722-1.768 3.522A5.988 5.988 0 0110 18a6 6 0 006-6c0-1.888-.864-3.58-2.23-4.654A3.987 3.987 0 0010 6a3.987 3.987 0 00-3.77 2.654A4.013 4.013 0 0010 10c.828 0 1.5-1.119 1.5-2.5s-.672-2.5-1.5-2.5S8.5 9.119 8.5 10.5h1c0-2.206-1.343-4-3-4s-3 1.794-3 4c0 1.488.702 2.722 1.768 3.522A5.988 5.988 0 014 12a6 6 0 016-6z" /></svg>
+            </div>
+            <h4 class="text-lg md:text-xl font-bold text-gray-800 mb-2">The Extrovert Profile (Scores 70-84)</h4>
+            <p>You direct your energy outward, seeking stimulation and engagement from the external world. You are fueled by interaction and activity, thriving in environments that are rich with social and sensory input.</p>
+            <ul class="list-disc pl-5 mt-3 md:mt-4 space-y-1 md:space-y-2">
+                <li><strong>Energy Source:</strong> Your batteries are charged by external stimulation, especially social interaction. Being around other people makes you feel energized and excited. You can feel bored when you spend too much time alone.</li>
+                <li><strong>Social Style:</strong> You are typically outgoing, talkative, and gregarious. You enjoy large gatherings and often have a wide social circle. You find it relatively easy to start conversations and make new friends.</li>
+                <li><strong>Cognitive Style:</strong> You tend to process information externally, often thinking by talking. You are generally action-oriented and may sometimes speak or act before thinking things through completely.</li>
+                <li><strong>Behavioral Traits:</strong> You are often assertive, energetic, and enjoy novelty. Your strengths lie in your ability to network, motivate others, and take initiative.</li>
+            </ul>`,
+        "Ambivert with Extroverted Leanings": `
+            <div class="flex items-center justify-center mb-3 md:mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zM2 10a8 8 0 1116 0 8 8 0 01-16 0zm9-3a1 1 0 00-2 0v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 9.586V7z" clip-rule="evenodd" /></svg>
+            </div>
+            <h4 class="text-lg md:text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 56-69)</h4>
+            <p>Scoring in the middle range of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You lean towards extroversion but are highly adaptable.</p>
+            <ul class="list-disc pl-5 mt-3 md:mt-4 space-y-1 md:space-y-2">
+                <li><strong>Energy Source:</strong> Your energy management is fluid. You can be energized by social situations, but this energy has a limit. Unlike a strong extrovert, you will eventually feel the need to withdraw and recharge. You enjoy solitude but also seek social connection.</li>
+                <li><strong>Social Style:</strong> You are a social chameleon. You can be outgoing and talkative when the situation calls for it, but are equally comfortable taking on a quieter, more observant role.</li>
+                <li><strong>Cognitive Style:</strong> You possess a flexible cognitive style, capable of both deep internal reflection and processing thoughts externally through discussion.</li>
+                <li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. In a group, you can bridge the gap between introverts and extroverts. Your adaptability is your defining advantage.</li>
+            </ul>`,
+        "True Ambivert": `
+            <div class="flex items-center justify-center mb-3 md:mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 6.332a5.5 5.5 0 017.336 0 1 1 0 01-1.336 1.494A3.5 3.5 0 006.83 9.17a1 1 0 11-1.336-1.494 5.5 5.5 0 01-1.162-1.344zM10 12a1 1 0 100 2h.01a1 1 0 100-2H10z" clip-rule="evenodd" /></svg>
+            </div>
+            <h4 class="text-lg md:text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 45-55)</h4>
+            <p>Scoring in the middle of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You are situationally adaptable, able to draw upon both introverted and extroverted tendencies as needed.</p>
+            <ul class="list-disc pl-5 mt-3 md:mt-4 space-y-1 md:space-y-2">
+                <li><strong>Energy Source:</strong> Your energy management is fluid. You can be energized by social situations, but this energy has a limit. You will eventually feel the need to withdraw and recharge. Similarly, you enjoy solitude but will eventually seek social connection.</li>
+                <li><strong>Social Style:</strong> You are a social chameleon. You can be outgoing and talkative when needed, but are equally comfortable being quiet and observant. This makes you a skilled conversationalist who knows when to speak and when to listen.</li>
+                <li><strong>Cognitive Style:</strong> You possess a flexible cognitive style, capable of both deep internal reflection and processing thoughts externally through discussion. This makes you effective in roles that require both independent work and teamwork.</li>
+                <li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. You can bridge the gap between introverts and extroverts. Your adaptability is your defining advantage.</li>
+            </ul>`,
+        "Ambivert with Introverted Leanings": `
+            <div class="flex items-center justify-center mb-3 md:mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a7 7 0 100 14 7 7 0 000-14zM2 10a8 8 0 1116 0 8 8 0 01-16 0zm9 3a1 1 0 00-2 0v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 9.586V7z" clip-rule="evenodd" /></svg>
+            </div>
+            <h4 class="text-lg md:text-xl font-bold text-gray-800 mb-2">The Ambivert Profile (Scores 31-44)</h4>
+            <p>Scoring in the middle range of the spectrum identifies you as an ambivert, a personality profile characterized by remarkable flexibility and balance. You lean towards introversion but are highly adaptable.</p>
+            <ul class="list-disc pl-5 mt-3 md:mt-4 space-y-1 md:space-y-2">
+                <li><strong>Energy Source:</strong> Your energy management is fluid, but you have a preference for calmer settings. You can be energized by social situations for a time, but you feel the need to withdraw and recharge more quickly than an extrovert. You value your alone time.</li>
+                <li><strong>Social Style:</strong> You are a social chameleon. While you can be outgoing when necessary, you are more naturally comfortable in a quieter, more observant role. You are a skilled and empathetic listener.</li>
+                <li><strong>Cognitive Style:</strong> You possess a flexible cognitive style but likely prefer to think things through internally before speaking.</li>
+                <li><strong>Behavioral Traits:</strong> Your greatest strength is your ability to provide balance. In a group, you can connect with both introverts and extroverts. Your adaptability is your defining advantage.</li>
+            </ul>`,
+        "Strong or Moderate Introvert": `
+            <div class="flex items-center justify-center mb-3 md:mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 text-emerald-600" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zm-1.513 8.35A4.012 4.012 0 013 18v-1.5a2.5 2.5 0 012.5-2.5h1.013A4.012 4.012 0 017.487 14.35zm5.586-4.242a1 1 0 01-1.414-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707zM16 10a1 1 0 00-1-1h-4a1 1 0 100 2h4a1 1 0 001-1z" /></svg>
+            </div>
+            <h4 class="text-lg md:text-xl font-bold text-gray-800 mb-2">The Introvert Profile (Scores 20-30)</h4>
+            <p>Individuals scoring in this range orient their energy primarily inward, finding gratification and renewal in their own mental landscape. This is not shyness, but a preference for lower-stimulus environments.</p>
+            <ul class="list-disc pl-5 mt-3 md:mt-4 space-y-1 md:space-y-2">
+                <li><strong>Energy Source:</strong> The defining characteristic of the introvert is energy dynamics. You gain energy from solitude and find sustained social interaction to be draining. After social events, you require quiet time alone to "recharge your batteries."</li>
+                <li><strong>Social Style:</strong> You are not anti-social; you are selectively social. You typically prefer smaller, more intimate gatherings with close friends or meaningful one-on-one conversations over large parties.</li>
+                <li><strong>Cognitive Style:</strong> Your focus is internal. You process information deeply and reflectively, often thinking things through carefully before speaking. You likely enjoy solitary activities that engage your mind.</li>
+                <li><strong>Behavioral Traits:</strong> You tend to be more cautious and less inclined toward high-risk behaviors. Your strengths lie in your capacity for deep focus, careful planning, and thoughtful analysis.</li>
+            </ul>`
     };
 
     // --- DOM Element References ---
     const quizForm = document.getElementById('quiz-form');
     const quizContainer = document.getElementById('quiz-container');
     const errorMessage = document.getElementById('error-message');
-    const quizSection = document.getElementById('quiz-section');
-    const resultContainer = document.getElementById('result-container');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
     const retakeBtn = document.getElementById('retake-btn');
 
     // --- Core Functions ---
 
-    /**
-     * Renders all questions and their options to the DOM.
-     */
     function renderQuestions() {
         let quizHTML = '';
         const options = [
@@ -119,26 +211,41 @@
 
         questions.forEach((q, index) => {
             quizHTML += `
-                <div class="question-block bg-white/80 p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300">
-                    <p class="question-text font-semibold text-gray-800 mb-5 text-lg">${q.text}</p>
-                    <div class="options-container flex flex-wrap justify-center gap-2 sm:gap-3">
+                <div class="question-block bg-white/90 p-4 md:p-5 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <p class="question-text font-semibold text-gray-800 mb-3 md:mb-4 text-base md:text-lg">${q.text}</p>
+                    <div class="options-container grid grid-cols-5 gap-2 md:gap-3">
             `;
+            
             options.forEach(opt => {
                 quizHTML += `
-                    <label class="option-label cursor-pointer text-gray-700 hover:text-emerald-600 transition-colors duration-200 whitespace-nowrap px-4 py-3 rounded-md border border-gray-300 hover:border-emerald-500 bg-white/80 text-center">
-                        <input type="radio" name="q${index}" value="${opt.value}" class="sr-only">
-                        <span>${opt.label}</span>
+                    <label class="option-label cursor-pointer text-gray-700 hover:text-emerald-600 transition-colors duration-200 px-2 py-2 md:px-3 md:py-2 rounded border border-gray-300 hover:border-emerald-500 bg-white text-center text-xs md:text-sm">
+                        <input type="radio" name="q${index}" value="${opt.value}" class="hidden">
+                        <span>${opt.label.split(' ')[0]}</span>
+                        <span class="hidden md:inline"> ${opt.label.split(' ')[1] || ''}</span>
                     </label>
                 `;
             });
+            
             quizHTML += `</div></div>`;
         });
+        
         quizContainer.innerHTML = quizHTML;
+        
+        // Add event listeners to update progress
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', updateProgress);
+        });
     }
 
-    /**
-     * Determines the personality profile based on the final score.
-     */
+    function updateProgress() {
+        const totalQuestions = questions.length;
+        const answeredQuestions = document.querySelectorAll('input[type="radio"]:checked').length;
+        const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+        
+        progressBar.style.width = `${progressPercentage}%`;
+        progressText.textContent = `${answeredQuestions}/${totalQuestions} answered`;
+    }
+
     function getProfile(score) {
         if (score >= 85) return "Strong Extrovert";
         if (score >= 70) return "Moderate Extrovert";
@@ -147,40 +254,22 @@
         if (score >= 31) return "Ambivert with Introverted Leanings";
         return "Strong or Moderate Introvert";
     }
-    
-    /**
-     * Resets the quiz to its initial state to be taken again.
-     */
-    function resetQuiz() {
-        resultContainer.style.display = 'none';
-        quizSection.style.display = 'block';
-        quizForm.reset();
-        
-        // Remove 'selected' class from all labels
-        document.querySelectorAll('.option-label.selected').forEach(label => {
-            label.classList.remove('selected');
-        });
 
-        errorMessage.style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /**
-     * Calculates the total score, determines the profile, and displays the results.
-     */
     function handleSubmit(event) {
-        event.preventDefault(); // Prevent form from submitting the traditional way
-        let totalScore = 0;
+        event.preventDefault();
         const totalQuestions = questions.length;
         const formData = new FormData(quizForm);
 
         if (Array.from(formData.keys()).length < totalQuestions) {
             errorMessage.style.display = 'block';
+            // Scroll to error message
+            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
         
         errorMessage.style.display = 'none';
 
+        let totalScore = 0;
         for (let i = 0; i < totalQuestions; i++) {
             const value = formData.get(`q${i}`);
             let score = parseInt(value, 10);
@@ -193,8 +282,8 @@
 
         const profile = getProfile(totalScore);
         
-        quizSection.style.display = 'none';
-        resultContainer.style.display = 'block';
+        document.getElementById('quiz-section').style.display = 'none';
+        document.getElementById('result-container').style.display = 'block';
         
         document.getElementById('result-profile').innerText = profile;
         document.getElementById('result-score').innerText = totalScore;
@@ -203,28 +292,21 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function resetTest() {
+        document.getElementById('quiz-section').style.display = 'block';
+        document.getElementById('result-container').style.display = 'none';
+        quizForm.reset();
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     // --- Event Listeners ---
     quizForm.addEventListener('submit', handleSubmit);
-    retakeBtn.addEventListener('click', resetQuiz);
+    retakeBtn.addEventListener('click', resetTest);
 
-    // Add a single event listener to the container for better performance
-    quizContainer.addEventListener('change', (event) => {
-        // Check if the changed element is a radio button
-        if (event.target.type === 'radio' && event.target.name.startsWith('q')) {
-            const questionBlock = event.target.closest('.question-block');
-            if (questionBlock) {
-                // Remove 'selected' from all labels within the same question
-                questionBlock.querySelectorAll('.option-label').forEach(label => {
-                    label.classList.remove('selected');
-                });
-                // Add 'selected' to the parent label of the radio button that was just checked
-                event.target.parentElement.classList.add('selected');
-            }
-        }
-    });
-
-    // --- Initial Application Setup ---
+    // --- Initial Setup ---
     renderQuestions();
+    updateProgress();
 </script>
 
 </body>
